@@ -42,10 +42,37 @@ query:
         method: get
 
 # Movies table handlers 
+addMovie:
+  handler: handlers/movie-service/addMovie.add
+  events:
+    - http:
+        path: movie
+        method: post
 
 getMovie:
   handler: handlers/movie-service/getMovie.get
   events:
     - http:
         path: movies/get/{title}-{year}
+        method: get
+
+deleteMovie:
+  handler: handlers/movie-service/deleteMovie.delete
+  events:
+    - http:
+        path: movies/delete/{title}-{year}
+        method: delete
+
+listMovie:
+  handler: handlers/movie-service/listMovie.list
+  events:
+    - http:
+        path: movies
+        method: get
+
+queryMovie:
+  handler: handlers/movie-service/queryMovie.query
+  events:
+    - http:
+        path: movies/query
         method: get

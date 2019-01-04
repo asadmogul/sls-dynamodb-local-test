@@ -1,4 +1,4 @@
-service: dblocal-service
+service: sls-ddblocal-service
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 
@@ -28,8 +28,8 @@ provider:
   runtime: nodejs8.10
   stage: ${opt:stage, 'dev'}
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    DYNAMODB_TABLE2: Movies
+    DYNAMODB_TABLE: service
+    DYNAMODB_TABLE2: movies
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -42,7 +42,12 @@ provider:
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
     - Effect: Allow
       Action:
+        - dynamodb:Query
+        - dynamodb:Scan
         - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE2}"
 
 functions:

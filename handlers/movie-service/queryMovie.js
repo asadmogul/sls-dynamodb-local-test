@@ -4,11 +4,17 @@ const dynamodb = require('../dynamodb');
 
 module.exports.query = (event, context, callback) => {
   const params = {
-    ExpressionAttributeValues: {
-      ':c' : {BOOL: false}
+    ProjectionExpression:"#yr, title, info.genres, info.actors[0]",
+    KeyConditionExpression: "#yr = :yyyy and title between :letter1 and :letter2",
+    ExpressionAttributeNames:{
+        "#yr": "year"
     },
-   FilterExpression: "contains (checked, :c)",
-   TableName: process.env.DYNAMODB_TABLE2
+    ExpressionAttributeValues: {
+        ":yyyy": 1992,
+        ":letter1": "A",
+        ":letter2": "B"
+    },
+    TableName: process.env.DYNAMODB_TABLE2
   };
   // fetch all todos from the database
   dynamodb.query(params, (error, result) => {

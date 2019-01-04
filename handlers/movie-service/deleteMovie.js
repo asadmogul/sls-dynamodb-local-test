@@ -3,10 +3,15 @@
 const dynamodb = require('../dynamodb');
 
 module.exports.delete = (event, context, callback) => {
+  let title = event.pathParameters.title.replace(/%20/g," ");
+  let year = parseInt(event.pathParameters.year);
+  console.log("Title: " + title + "\nYear: " + year);
+
   const params = {
     TableName: process.env.DYNAMODB_TABLE2,
     Key: {
-      id: event.pathParameters.id,
+      year: year,
+      title: title
     },
   };
 
@@ -24,10 +29,19 @@ module.exports.delete = (event, context, callback) => {
     }
 
     // create a response
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify({}),
-    };
-    callback(null, response);
+    if (result.Item == ""){
+      const response = {
+        statusCode: 400,
+        body: "Bad Request",
+      };
+      callback(null, response);
+    }
+    else{
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify(result.Item),
+      };
+      callback(null, response);
+    }
   });
 }

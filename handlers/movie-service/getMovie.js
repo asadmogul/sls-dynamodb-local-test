@@ -3,9 +3,13 @@ const dynamodb = require('../dynamodb');
 
 module.exports.get = (event, context, callback) => {
 
+  console.log("\nEvent\n",event);
+  console.log("\nContext\n",context);
+  
   let title = event.pathParameters.title.replace(/%20/g," ");
   let year = parseInt(event.pathParameters.year);
   console.log("Title: " + title + "\nYear: " + year);
+  console.log(event.queryStringParameters);
   
   // if (typeof event.pathParameters.title !== 'string' || typeof event.pathParameters.year !== 'number') {
   //   console.error('Validation Failed');
@@ -40,19 +44,20 @@ module.exports.get = (event, context, callback) => {
     console.log(result.Item);
     
         // create a response
-    if (result.Item !== ""){
+    if (result.Item == ""){
       const response = {
         statusCode: 400,
         body: "Bad Request",
       };
+      callback(null, response);
     }
     else{
       const response = {
         statusCode: 200,
         body: JSON.stringify(result.Item),
       };
-  
+      callback(null, response);
     }
-    callback(null, response);
+    
   });
 };
