@@ -1,1 +1,1 @@
-# serverless-dynamodb-test
+# serverless-dynamodb-local-test
