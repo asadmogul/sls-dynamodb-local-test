@@ -1,0 +1,51 @@
+# Simple service handlers
+
+create:
+  handler: handlers/simple-service/create.create
+  events:
+    - http:
+        path: service
+        method: post
+
+list:
+  handler: handlers/simple-service/list.list
+  events:
+    - http:
+        path: service      
+        method: get
+
+get:
+  handler: handlers/simple-service/get.get
+  events:
+    - http:
+        path: service/{id}
+        method: get
+
+update:
+  handler: handlers/simple-service/update.update
+  events:
+    - http:
+        path: service/{id}
+        method: put
+
+delete:
+  handler: handlers/simple-service/delete.delete
+  events:
+    - http:
+        path: service/{id}
+        method: delete
+query:
+  handler: handlers/simple-service/query.query
+  events:
+    - http:
+        path: service/query
+        method: get
+
+# Movies table handlers 
+
+getMovie:
+  handler: handlers/movie-service/getMovie.get
+  events:
+    - http:
+        path: movies/get/{title}-{year}
+        method: get
